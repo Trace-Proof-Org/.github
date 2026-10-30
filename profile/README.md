@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="800" alt="traceproof-logo-removebg-preview" src="https://github.com/user-attachments/assets/3ee49a37-3ef1-4f36-bc6b-17f974bcb1a2" />
+  <img width="600" alt="traceproof-logo-removebg-preview" src="https://github.com/user-attachments/assets/3ee49a37-3ef1-4f36-bc6b-17f974bcb1a2" />
   <h3 align="center">The AI-Assisted Formal Verification Framework</h3>
 </p>
 
