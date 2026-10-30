@@ -1,82 +1,48 @@
-# TraceProof
-
-**TraceProof** is an autonomous agentic system for formal specification, model-code conformance verification, and deterministic bug reproduction in concurrent and distributed systems.
-
-By bridging the gap between **formal methods (TLA+ / TLC)**, **runtime execution traces**, and **multi-agent AI systems**, TraceProof eliminates the prohibitive cost of hand-crafting formal specifications and delivers physically verified, reproducible bug diagnostics with zero false alarms.
-
----
-
-## What It Does
-
-TraceProof:
-
-* **Mines Evidence-Backed Invariants**: Performs semantic AST analysis over source code, documentation, and repository history to extract protocol and code-level safety properties.
-* **Synthesizes Formal Models**: Autonomously drafts checkable, modular **TLA+** specifications with an automated syntax self-repair gate.
-* **Guarantees Model-Code Conformance**: Uses **Trace Validation** (`tla-mcp replay_scenario`) to prove that the formal specification faithfully admits real runtime execution paths before model checking begins.
-* **Exhaustively Explores State Spaces**: Uses the **TLC Model Checker** to explore all possible concurrent thread interleavings and surface deep race conditions, deadlocks, and consistency violations.
-* **Adversarially Audits Counterexamples**: Employs an independent **Adversarial Critic Agent** to red-team discovered counterexamples—auditing invariant soundness, model fidelity, and OS thread feasibility to filter out AI hallucinations.
-* **Deterministically Reproduces Bugs**: Automatically compiles and executes synchronized Python test harnesses against the live codebase, forcing the exact failure schedule to catch physical errors (`AssertionError`) and file actionable issues.
+<p align="center">
+  <img width="800" alt="traceproof-logo-removebg-preview" src="https://github.com/user-attachments/assets/3ee49a37-3ef1-4f36-bc6b-17f974bcb1a2" />
+  <h3 align="center">The AI-Assisted Formal Verification Framework</h3>
+</p>
 
 ---
 
-## Multi-Agent Architecture
+**TraceProof** is an agentic framework we are building to explore **automated formal specification (TLA+)**, **model-code verification**, and **bug reproduction** in concurrent software systems, targeting issues such as **race conditions, deadlocks, and atomicity violations**. We are initially targeting **C++** concurrent code.
 
-TraceProof is organized around **six specialized cooperating agents** sharing a unified verification knowledge base, with optional, selective human steering:
+Writing formal specifications by hand requires significant time and expertise, while asking LLMs to generate specifications directly from large codebases often leads to context overload and inaccurate models. **Our goal with TraceProof** is to combine **formal methods** and **multi-agent workflows** to make formal verification more practical and accessible for real-world concurrent code.
 
-```
-Source Code & Docs 
-       │
-       ▼
-1. Repository Analysis Agent        ── Scopes dependencies, modules & change-impact
-       │
-       ▼
-2. Invariant Mining Agent           ── Extracts evidence-backed safety invariants (AST & history)
-       │
-       ▼
-3. Scenario & Model Planning Agent  ── Synthesizes TLA+ specs with optional engineer scenario guidance
-       │
-       ▼
-4. Formal Verification Agent        ── Performs Trace Validation & TLC Model Checking via tla-mcp
-       │
-       ▼
-5. Adversarial Agent (Critic)       ── Red-teams counterexamples to eliminate false alarms
-       │
-       ▼
-6. Bug Confirmation Agent           ── Deterministically reproduces bugs on live runtime threads & files reports
-```
+## Project Goals
 
-1. **Repository Analysis Agent** — Maps project structure, call graphs, and historical change-impact to enable incremental, scoped verification.
-2. **Invariant Mining Agent** — Discovers candidate invariants backed by code citations, commit evidence, and confidence metrics.
-3. **Scenario & Model Planning Agent** — Scopes verification around critical concurrency paths, incorporating optional engineer steering (e.g., guided failure scenarios).
-4. **Formal Verification Agent** — Drives the `tla-mcp` MCP server to perform trace validation (model-code conformance) and exhaustive TLC model checking.
-5. **Adversarial Agent (Critic)** — Challenges candidate bugs as a skeptic, evaluating whether the counterexample is physically realizable or an artifact of model over-simplification.
-6. **Bug Confirmation Agent** — Synthesizes deterministic replay harnesses (using barriers and controlled delays) to prove the bug on live runtime code and generate diagnostic reports.
+TraceProof aims to:
 
----
+* **Analyze & Slice Concurrent Codebases**: Use static analysis to map concurrent components, shared state, and synchronization boundaries, then extract focused code slices for specific verification scenarios.
+* **Mine Evidence-Backed Invariants**: Extract candidate safety properties from source code, documentation, design specs, and repository history, rather than relying on code alone.
+* **Synthesize Focused TLA+ Models**: Draft modular, checkable **TLA+** specifications linked back to the original source lines.
+* **Verify Models**: Use the **TLC Model Checker** to explore concurrent thread interleavings and find invariant violations. We are also exploring the **TLA+ Proof System (TLAPS)** to help localize violations to specific actions.
+* **Critique & Filter Candidate Bugs**: Use an **Adversarial Critic Agent** to review counterexamples, check whether the model faithfully represents the code, and reduce false alarms.
+* **Assist in Bug Reproduction**: Map counterexample traces back to source code to help build multi-threaded tests that reproduce the issue.
 
 ## Technology Stack
 
-* **Formal Methods**: TLA+, TLC Model Checker (via the `tla-rs` / `tla-mcp` Model Context Protocol server).
-* **AI & Multi-Agent Coordination**: Claude (Anthropic), Gemini, Model Context Protocol (MCP).
-* **Code Understanding**: Tree-sitter, Python AST static analyzers, GitHub REST/GraphQL APIs.
-* **Runtime Verification & Testing**: Dynamic runtime tracing, `threading.Barrier` synchronization, Subprocess execution sandboxing.
-* **Developer Interfaces**: Streamlit (Dashboard for scenario steering and verification analysis), Jira API & GitHub Issues (Automated ticket generation).
-
----
+* **Formal Methods:** TLA+, TLC Model Checker (exploring TLAPS)
+* **Code Analysis:** Tree-sitter static analysis, program slicing, Git history analysis
+* **AI & Agents:** Pydantic AI, Claude, Gemini, Model Context Protocol (MCP)
 
 ## Project Status
 
-**Active Development / Proof of Concept Verified**
+**Work in Progress**
 
-The core pipeline has been demonstrated end-to-end, discovering and deterministically reproducing complex concurrency anomalies (such as distributed leased lock lease expiration races) on live codebases.
+We have built early prototypes for C++ concurrency analysis and code slicing, and are currently developing **Repository & Evidence Analysis** (Stage 1) and **Invariant Mining, Slicing & TLA+ Generation** (Stage 2).
 
----
+## Team, Supervision & Mentorship
 
-### Team
+**Team**  
+Youssef Hassan · Ahmed Sayed · Fares Ahmed · Andrew Wafae · Adham Hamdy
 
-**Deadliners**  
-Faculty of Computers and Artificial Intelligence  
-Cairo University  
-Academic Year 2026–2027  
+**Academic Supervision**  
+Dr. Mohamed El-Ramly · Dr. Desoky Abdelqawy
 
-**Under the supervision of: Dr. Mohamed El-Ramly**
+**Technical Support & Mentorship**  
+MongoDB
+
+**Institution**  
+Faculty of Computers and Artificial Intelligence, Cairo University  
+*Academic Year 2026-2027*
